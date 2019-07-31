@@ -9,7 +9,7 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 
 ## Memory consumption
 <p align="center">
-    <img src="images/memory.png" width="960"> <br />
+    <img src="images/memory.png" width="640"> <br />
     <em> Memory Consumption (MB) and average inference time (second). </em>
 </p>
 

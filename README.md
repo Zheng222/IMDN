@@ -7,6 +7,12 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
     <em> Average PSNR/SSIM on datasets Set5, Set14, BSD100, Urban100, and Manga109. </em>
 </p>
 
+## Memory consumption
+<p align="center">
+    <img src="images/memory.png" width="960"> <br />
+    <em> Memory Consumption (MB) and average inference time (second). </em>
+</p>
+
 ## Model parameters
 
 <p align="center">

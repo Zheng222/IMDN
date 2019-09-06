@@ -29,6 +29,6 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 
 ## Adaptive Cropping
 <p align="center">
-    <img src="images/adaptive_cropping" width="480"> <br />
+    <img src="images/adaptive_cropping.png" width="480"> <br />
     <em> The diagrammatic sketch of adaptive cropping strategy (ACS). The cropped image patches in the green dotted boxes. </em>
 </p>

@@ -1,6 +1,13 @@
 # IMDN
 Lightweight Image Super-Resolution with Information Multi-distillation Network (ACM MM 2019)
 
+# Hightlights
+1. Our information multi-distillation block (IMDB) with contrast-aware attention (CCA) layer.
+
+2. The adaptive cropping strategy (ACS) to achieve the processing images of any arbitrary size (implementing any upscaling factors using one model).
+
+3. The exploration of factors affecting actual inference time.
+
 ## PSNR & SSIM
 <p align="center">
     <img src="images/psnr_ssim.png" width="960"> <br />
@@ -32,3 +39,17 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
     <img src="images/adaptive_cropping.png" width="480"> <br />
     <em> The diagrammatic sketch of adaptive cropping strategy (ACS). The cropped image patches in the green dotted boxes. </em>
 </p>
+
+
+## Citation
+
+If you find IMDN useful in your research, please consider citing:
+
+```
+@inproceedings{Hui-IMDN-2019,
+  title={Lightweight Image Super-Resolution with Information Multi-distillation Network},
+  author={Hui, Zheng and Gao, Xinbo and Yang, Yunchu and Wang, Xiumei},
+  booktitle={ACM MM},
+  year={2019}
+}
+```

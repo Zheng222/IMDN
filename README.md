@@ -26,3 +26,9 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
     <img src="images/time.png" width="480"> <br />
     <em> Trade-off between performance and running time on Set5 ×4 dataset. VDSR, DRCN, and LapSRN were implemented by MatConvNet, while DRRN, and IDN employed Caffe package. The rest EDSR-baseline, CARN, and our IMDN utilized PyTorch. </em>
 </p>
+
+## Adaptive Cropping
+<p align="center">
+    <img src="images/adaptive_cropping" width="480"> <br />
+    <em> The diagrammatic sketch of adaptive cropping strategy (ACS). The cropped image patches in the green dotted boxes. </em>
+</p>

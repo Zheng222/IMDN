@@ -57,4 +57,12 @@ If you find IMDN useful in your research, please consider citing:
   booktitle={ACM MM},
   year={2019}
 }
+
+@inproceedings{AIM19constrainedSR,
+  title={ AIM 2019 Challenge on Constrained Super-Resolution: Methods and Results},
+  author={Kai Zhang and Shuhang Gu and Radu Timofte and others},
+  booktitle={The IEEE International Conference on Computer Vision (ICCV) Workshops},
+  year={2019}
+}
+
 ```

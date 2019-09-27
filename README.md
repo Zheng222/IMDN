@@ -1,6 +1,8 @@
 # IMDN
 Lightweight Image Super-Resolution with Information Multi-distillation Network (ACM MM 2019)
 
+[[arXiv]](https://arxiv.org/pdf/1909.11856v1.pdf)
+
 # Hightlights
 1. Our information multi-distillation block (IMDB) with contrast-aware attention (CCA) layer.
 

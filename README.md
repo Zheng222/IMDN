@@ -3,6 +3,9 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 
 [[arXiv]](https://arxiv.org/pdf/1909.11856v1.pdf)
 
+# [ICCV 2019 Workshop AIM](http://www.vision.ee.ethz.ch/aim19/)
+The simplified version of IMDN won the first place at Contrained Super-Resolution Challenge.
+
 # Hightlights
 1. Our information multi-distillation block (IMDB) with contrast-aware attention (CCA) layer.
 

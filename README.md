@@ -13,6 +13,17 @@ The simplified version of IMDN won the first place at Contrained Super-Resolutio
 
 3. The exploration of factors affecting actual inference time.
 
+## Testing
+Pytorch 1.1
+* Runing testing:
+```bash
+# Set5 x2 IMDN
+python test_IMDN.py --test_hr_folder Test_Datasets/Set5/ --test_lr_folder Test_Datasets/Set5_LR/x2/ --output_folder results/Set5/x2 --checkpoint checkpoints/IMDN_x2.pth --upscale_factor 2
+# RealSR IMDN_AS
+python test_IMDN_AS.py --test_hr_folder Test_Datasets/RealSR/ValidationGT --test_lr_folder Test_Datasets/RealSR/ValidationLR/ --output_folder results/RealSR --checkpoint checkpoints/IMDN_AS.pth
+
+```
+
 ## PSNR & SSIM
 <p align="center">
     <img src="images/psnr_ssim.png" width="960"> <br />

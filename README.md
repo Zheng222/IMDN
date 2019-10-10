@@ -56,6 +56,11 @@ python test_IMDN_AS.py --test_hr_folder Test_Datasets/RealSR/ValidationGT --test
     <em> The diagrammatic sketch of adaptive cropping strategy (ACS). The cropped image patches in the green dotted boxes. </em>
 </p>
 
+## Visualization of feature maps
+<p align="center">
+    <img src="images/lenna.png" width="480"> <br />
+    <em> Visualization of output feature maps of the 6-th progressive refinement module (PRM).</em>
+</p>
 
 ## Citation
 

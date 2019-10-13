@@ -30,6 +30,15 @@ python test_IMDN_AS.py --test_hr_folder Test_Datasets/RealSR/ValidationGT --test
 
 The following PSNR/SSIMs are evaluated on Matlab R2017a and the code can be referred to [Evaluate_PSNR_SSIM.m](https://github.com/yulunzhang/RCAN/blob/master/RCAN_TestCode/Evaluate_PSNR_SSIM.m).
 
+## Pressure Test
+<p align="center">
+    <img src="images/Pressure_test.png" width="960"> <br />
+    <em> Pressure test for ×4 SR model. </em>
+</p>
+
+*Note: Using torch.cuda.Event() to record inference times. 
+
+
 ## PSNR & SSIM
 <p align="center">
     <img src="images/psnr_ssim.png" width="960"> <br />

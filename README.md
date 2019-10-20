@@ -2,7 +2,7 @@
 Lightweight Image Super-Resolution with Information Multi-distillation Network (ACM MM 2019)
 
 [[arXiv]](https://arxiv.org/pdf/1909.11856v1.pdf)
-[[Poster]](images/acmmm2019_poster.pdf)
+[[Poster]](https://github.com/Zheng222/IMDN/blob/master/images/acmmm19_poster.pdf)
 
 # [ICCV 2019 Workshop AIM](http://www.vision.ee.ethz.ch/aim19/)
 The simplified version of IMDN won the first place at Contrained Super-Resolution Challenge.

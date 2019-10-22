@@ -25,6 +25,9 @@ python test_IMDN_AS.py --test_hr_folder Test_Datasets/RealSR/ValidationGT --test
 
 ```
 
+## Training
+Comming soon
+
 ## Results
 [百度网盘](https://pan.baidu.com/s/1DY0Npete3WsIoFbjmgXQlw)提取码: 8yqj or
 [Google drive](https://drive.google.com/open?id=1GsEcpIZ7uA97D89WOGa9sWTSl4choy_O)

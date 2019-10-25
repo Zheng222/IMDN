@@ -7,7 +7,7 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 # [ICCV 2019 Workshop AIM](http://www.vision.ee.ethz.ch/aim19/)
 The simplified version of IMDN won the first place at Contrained Super-Resolution Challenge.
 
-# [AI in RTC](https://www.pkbigdata.com/common/cmpt/AI%20in%20RTC-%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83%E6%8C%91%E6%88%98%E8%B5%9B_%E7%AB%9E%E8%B5%9B%E4%BF%A1%E6%81%AF.html)
+# [AI in RTC-rainbow](https://www.dcjingsai.com/common/bbs/topicDetails.html?tid=3787)
 The ultra lightweight version of IMDN won the first place at Super Resolution Algorithm Performance Comparison Challenge.
 
 # Hightlights

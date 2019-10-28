@@ -3,6 +3,7 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 
 [[arXiv]](https://arxiv.org/pdf/1909.11856v1.pdf)
 [[Poster]](https://github.com/Zheng222/IMDN/blob/master/images/acmmm19_poster.pdf)
+[[ACM DL]](https://dl.acm.org/citation.cfm?id=3351084)
 
 # [ICCV 2019 Workshop AIM](http://www.vision.ee.ethz.ch/aim19/)
 The simplified version of IMDN won the first place at Contrained Super-Resolution Challenge.
@@ -92,7 +93,8 @@ If you find IMDN useful in your research, please consider citing:
 @inproceedings{Hui-IMDN-2019,
   title={Lightweight Image Super-Resolution with Information Multi-distillation Network},
   author={Hui, Zheng and Gao, Xinbo and Yang, Yunchu and Wang, Xiumei},
-  booktitle={ACM MM},
+  booktitle={Proceedings of the 27th ACM International Conference on Multimedia (ACM MM)},
+  pages={2024--2032},
   year={2019}
 }
 
@@ -100,7 +102,6 @@ If you find IMDN useful in your research, please consider citing:
   title={AIM 2019 Challenge on Constrained Super-Resolution: Methods and Results},
   author={Kai Zhang and Shuhang Gu and Radu Timofte and others},
   booktitle={The IEEE International Conference on Computer Vision (ICCV) Workshops},
-  pages={2024--2032},
   year={2019}
 }
 

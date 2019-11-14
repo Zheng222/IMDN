@@ -5,8 +5,8 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 [[Poster]](https://github.com/Zheng222/IMDN/blob/master/images/acmmm19_poster.pdf)
 [[ACM DL]](https://dl.acm.org/citation.cfm?id=3351084)
 
-# [ICCV 2019 Workshop AIM](http://www.vision.ee.ethz.ch/aim19/)
-The simplified version of IMDN won the first place at Contrained Super-Resolution Challenge.
+# [ICCV 2019 Workshop AIM report](https://arxiv.org/abs/1911.01249)
+The simplified version of IMDN won the first place at Contrained Super-Resolution Challenge (Track1 & Track2).
 
 # [AI in RTC-rainbow](https://www.dcjingsai.com/common/bbs/topicDetails.html?tid=3787)
 The ultra lightweight version of IMDN won the first place at Super Resolution Algorithm Performance Comparison Challenge.

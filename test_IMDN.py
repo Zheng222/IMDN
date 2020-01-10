@@ -4,7 +4,7 @@ import os
 import numpy as np
 import utils
 import skimage.color as sc
-import skimage.io as sio
+import cv2
 from model import architecture
 # Testing settings
 
@@ -49,9 +49,9 @@ start = torch.cuda.Event(enable_timing=True)
 end = torch.cuda.Event(enable_timing=True)
 
 for imname in filelist:
-    im_gt = sio.imread(imname)
+    im_gt = cv2.imread(imname, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
     im_gt = utils.modcrop(im_gt, opt.upscale_factor)
-    im_l = sio.imread(opt.test_lr_folder + imname.split('/')[-1].split('.')[0] + 'x' + str(opt.upscale_factor) + ext)
+    im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1].split('.')[0] + 'x' + str(opt.upscale_factor) + ext, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
     if len(im_gt.shape) < 3:
         im_gt = im_gt[..., np.newaxis]
         im_gt = np.concatenate([im_gt] * 3, 2)
@@ -93,7 +93,7 @@ for imname in filelist:
     if not os.path.exists(opt.output_folder):
         os.makedirs(opt.output_folder)
 
-    sio.imsave(output_folder, out_img)
+    cv2.imwrite(output_folder, out_img[:, :, [2, 1, 0]])
     i += 1
 
 

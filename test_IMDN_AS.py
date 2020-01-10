@@ -4,7 +4,7 @@ import os
 import numpy as np
 import utils
 import skimage.color as sc
-import skimage.io as sio
+import cv2
 from model import architecture
 
 parser = argparse.ArgumentParser(description='IMDN_AS')
@@ -79,8 +79,8 @@ start = torch.cuda.Event(enable_timing=True)
 end = torch.cuda.Event(enable_timing=True)
 i = 0
 for imname in filelist:
-    im_gt = sio.imread(imname)
-    im_l = sio.imread(opt.test_lr_folder + imname.split('/')[-1])
+    im_gt = cv2.imread(imname)[:, :, [2, 1, 0]]
+    im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1])[:, :, [2, 1, 0]]
     if len(im_gt.shape) < 3:
         im_gt = im_gt[..., np.newaxis]
         im_gt = np.concatenate([im_gt] * 3, 2)
@@ -127,7 +127,7 @@ for imname in filelist:
     if not os.path.exists(opt.output_folder):
         os.makedirs(opt.output_folder)
 
-    sio.imsave(output_folder, sr_img)
+    sio.imsave(output_folder, sr_img[:, :, [2, 1, 0]])
     i += 1
 
 print("Mean PSNR: {}, SSIM: {}, Time: {} ms".format(np.mean(psnr_list), np.mean(ssim_list), np.mean(time_list)))

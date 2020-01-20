@@ -127,7 +127,7 @@ for imname in filelist:
     if not os.path.exists(opt.output_folder):
         os.makedirs(opt.output_folder)
 
-    sio.imsave(output_folder, sr_img[:, :, [2, 1, 0]])
+    cv2.imwrite(output_folder, sr_img[:, :, [2, 1, 0]])
     i += 1
 
 print("Mean PSNR: {}, SSIM: {}, Time: {} ms".format(np.mean(psnr_list), np.mean(ssim_list), np.mean(time_list)))

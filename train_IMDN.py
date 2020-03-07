@@ -170,7 +170,7 @@ def valid():
 
 
 def save_checkpoint(epoch):
-    model_folder = "checkpoint/"
+    model_folder = "checkpoint_x{}/".format(args.scale)
     model_out_path = model_folder + "epoch_{}.pth".format(epoch)
     if not os.path.exists(model_folder):
         os.makedirs(model_folder)

@@ -30,7 +30,17 @@ python test_IMDN_AS.py --test_hr_folder Test_Datasets/RealSR/ValidationGT --test
 ```
 
 ## Training
-Comming soon
+* Download [Training dataset](https://drive.google.com/open?id=12hOYsMa8t1ErKj6PZA352icsx9mz1TwB)
+* Convert png file to npy file
+```bash
+python scripts/png2npy.py --pathFrom /path/to/DIV2K/ --pathTo /path/to/DIV2K_decoded/
+```
+* Run training x2, x3, x4 model
+```bash
+python train_IMDN.py --root /path/to/DIV2K_decoded/ --scale 2 --pretrained checkpoints/IMDN_x2.pth
+python train_IMDN.py --root /path/to/DIV2K_decoded/ --scale 3 --pretrained checkpoints/IMDN_x3.pth
+python train_IMDN.py --root /path/to/DIV2K_decoded/ --scale 4 --pretrained checkpoints/IMDN_x4.pth
+```
 
 ## Results
 [百度网盘](https://pan.baidu.com/s/1DY0Npete3WsIoFbjmgXQlw)提取码: 8yqj or

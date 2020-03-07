@@ -145,6 +145,30 @@ class IMDModule(nn.Module):
         out_fused = self.c5(self.cca(out)) + input
         return out_fused
 
+class IMDModule_speed(nn.Module):
+    def __init__(self, in_channels, distillation_rate=0.25):
+        super(IMDModule_speed, self).__init__()
+        self.distilled_channels = int(in_channels * distillation_rate)
+        self.remaining_channels = int(in_channels - self.distilled_channels)
+        self.c1 = conv_layer(in_channels, in_channels, 3)
+        self.c2 = conv_layer(self.remaining_channels, in_channels, 3)
+        self.c3 = conv_layer(self.remaining_channels, in_channels, 3)
+        self.c4 = conv_layer(self.remaining_channels, self.distilled_channels, 3)
+        self.act = activation('lrelu', neg_slope=0.05)
+        self.c5 = conv_layer(self.distilled_channels * 4, in_channels, 1)
+
+    def forward(self, input):
+        out_c1 = self.act(self.c1(input))
+        distilled_c1, remaining_c1 = torch.split(out_c1, (self.distilled_channels, self.remaining_channels), dim=1)
+        out_c2 = self.act(self.c2(remaining_c1))
+        distilled_c2, remaining_c2 = torch.split(out_c2, (self.distilled_channels, self.remaining_channels), dim=1)
+        out_c3 = self.act(self.c3(remaining_c2))
+        distilled_c3, remaining_c3 = torch.split(out_c3, (self.distilled_channels, self.remaining_channels), dim=1)
+        out_c4 = self.c4(remaining_c3)
+
+        out = torch.cat([distilled_c1, distilled_c2, distilled_c3, out_c4], dim=1)
+        out_fused = self.c5(out) + input
+        return out_fused
 
 def pixelshuffle_block(in_channels, out_channels, upscale_factor=2, kernel_size=3, stride=1):
     conv = conv_layer(in_channels, out_channels * (upscale_factor ** 2), kernel_size, stride)

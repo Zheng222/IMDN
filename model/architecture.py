@@ -74,3 +74,21 @@ class IMDN(nn.Module):
         out_lr = self.LR_conv(out_B) + out_fea
         output = self.upsampler(out_lr)
         return output
+
+class IMDN_RTC(nn.Module):
+    def __init__(self, in_nc=3, nf=12, num_modules=5, out_nc=3, upscale=2):
+        super(IMDN_RTC, self).__init__()
+
+        fea_conv = [B.conv_layer(in_nc, nf, kernel_size=3)]
+        rb_blocks = [B.IMDModule_speed(in_channels=nf) for _ in range(num_modules)]
+        LR_conv = B.conv_layer(nf, nf, kernel_size=1)
+
+        upsample_block = B.pixelshuffle_block
+        upsampler = upsample_block(nf, out_nc, upscale_factor=upscale)
+
+        self.model = B.sequential(*fea_conv, B.ShortcutBlock(B.sequential(*rb_blocks, LR_conv)),
+                                  *upsampler)
+
+    def forward(self, input):
+        output = self.model(input)
+        return output

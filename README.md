@@ -28,6 +28,10 @@ python test_IMDN.py --test_hr_folder Test_Datasets/Set5/ --test_lr_folder Test_D
 python test_IMDN_AS.py --test_hr_folder Test_Datasets/RealSR/ValidationGT --test_lr_folder Test_Datasets/RealSR/ValidationLR/ --output_folder results/RealSR --checkpoint checkpoints/IMDN_AS.pth
 
 ```
+* Calculating IMDN_RTC's FLOPs and parameters, input size is 240*360
+```bash
+python calc_FLOPs.py
+```
 
 ## Training
 * Download [Training dataset](https://drive.google.com/open?id=12hOYsMa8t1ErKj6PZA352icsx9mz1TwB)

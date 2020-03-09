@@ -34,7 +34,7 @@ python calc_FLOPs.py
 ```
 
 ## Training
-* Download [Training dataset](https://drive.google.com/open?id=12hOYsMa8t1ErKj6PZA352icsx9mz1TwB)
+* Download [Training dataset DIV2K](https://drive.google.com/open?id=12hOYsMa8t1ErKj6PZA352icsx9mz1TwB)
 * Convert png file to npy file
 ```bash
 python scripts/png2npy.py --pathFrom /path/to/DIV2K/ --pathTo /path/to/DIV2K_decoded/

@@ -55,6 +55,16 @@ def tensor2np(tensor, out_type=np.uint8, min_max=(0, 1)):
 
     return img_np.astype(out_type)
 
+def convert2np(tensor):
+    return tensor.cpu().mul(255).clamp(0, 255).byte().squeeze().permute(1, 2, 0).numpy()
+
+
+def adjust_learning_rate(optimizer, epoch, step_size, lr_init, gamma):
+    factor = epoch // step_size
+    lr = lr_init * (gamma ** factor)
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+
 def load_state_dict(path):
 
     state_dict = torch.load(path)

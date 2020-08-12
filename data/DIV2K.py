@@ -1,11 +1,11 @@
 import torch.utils.data as data
 import os.path
-from PIL import Image
+import cv2
 import numpy as np
 from data import common
 
 def default_loader(path):
-    return Image.open(path).convert('RGB')
+    return cv2.imread(path, cv2.IMREAD_UNCHANGED)[:, :, [2, 1, 0]]
 
 def npy_loader(path):
     return np.load(path)

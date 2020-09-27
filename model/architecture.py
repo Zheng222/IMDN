@@ -75,6 +75,7 @@ class IMDN(nn.Module):
         output = self.upsampler(out_lr)
         return output
 
+# AI in RTC Image Super-Resolution Algorithm Performance Comparison Challenge (Winner solution)
 class IMDN_RTC(nn.Module):
     def __init__(self, in_nc=3, nf=12, num_modules=5, out_nc=3, upscale=2):
         super(IMDN_RTC, self).__init__()
@@ -92,3 +93,40 @@ class IMDN_RTC(nn.Module):
     def forward(self, input):
         output = self.model(input)
         return output
+
+
+class IMDN_RTE(nn.Module):
+    def __init__(self, upscale=2, in_nc=3, nf=20, out_nc=3):
+        super(IMDN_RTE, self).__init__()
+        self.upscale = upscale
+        self.fea_conv = nn.Sequential(B.conv_layer(in_nc, nf, 3, bias=True),
+                                      nn.ReLU(inplace=True),
+                                      B.conv_layer(nf, nf, 3, stride=2))
+
+        self.block1 = IMDModule_Large(nf)
+        self.block2 = IMDModule_Large(nf)
+        self.block3 = IMDModule_Large(nf)
+        self.block4 = IMDModule_Large(nf)
+        self.block5 = IMDModule_Large(nf)
+        self.block6 = IMDModule_Large(nf)
+
+        self.LR_conv = B.conv_layer(nf, nf, 1)
+
+        self.upsampler = B.pixelshuffle_block(nf, out_nc, upscale_factor=upscale**2, bias=True)
+
+    def forward(self, input):
+
+        fea = self.fea_conv(input)
+        out_b1 = self.block1(fea)
+        out_b2 = self.block2(out_b1)
+        out_b3 = self.block3(out_b2)
+        out_b4 = self.block4(out_b3)
+        out_b5 = self.block5(out_b4)
+        out_b6 = self.block6(out_b5)
+
+        out_lr = self.LR_conv(out_b6) + fea
+
+        output = self.upsampler(out_lr)
+
+        return output
+

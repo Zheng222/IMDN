@@ -3,9 +3,9 @@ from collections import OrderedDict
 import torch
 
 
-def conv_layer(in_channels, out_channels, kernel_size, stride=1, dilation=1, groups=1):
+def conv_layer(in_channels, out_channels, kernel_size, stride=1, dilation=1, groups=1, bias=True):
     padding = int((kernel_size - 1) / 2) * dilation
-    return nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding=padding, bias=True, dilation=dilation,
+    return nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding=padding, bias=bias, dilation=dilation,
                      groups=groups)
 
 
@@ -175,14 +175,14 @@ class IMDModule_Large(nn.Module):
         super(IMDModule_Large, self).__init__()
         self.distilled_channels = int(in_channels * distillation_rate)  # 6
         self.remaining_channels = int(in_channels - self.distilled_channels)  # 18
-        self.c1 = conv_layer(in_channels, in_channels, 3)  # 24 --> 24
-        self.c2 = conv_layer(self.remaining_channels, in_channels, 3)  # 18 --> 24
-        self.c3 = conv_layer(self.remaining_channels, in_channels, 3)  # 18 --> 24
-        self.c4 = conv_layer(self.remaining_channels, self.remaining_channels, 3)  # 15 --> 15
-        self.c5 = conv_layer(self.remaining_channels-self.distilled_channels, self.remaining_channels-self.distilled_channels, 3)  # 10 --> 10
-        self.c6 = conv_layer(self.distilled_channels, self.distilled_channels, 3)  # 5 --> 5
+        self.c1 = conv_layer(in_channels, in_channels, 3, bias=False)  # 24 --> 24
+        self.c2 = conv_layer(self.remaining_channels, in_channels, 3, bias=False)  # 18 --> 24
+        self.c3 = conv_layer(self.remaining_channels, in_channels, 3, bias=False)  # 18 --> 24
+        self.c4 = conv_layer(self.remaining_channels, self.remaining_channels, 3, bias=False)  # 15 --> 15
+        self.c5 = conv_layer(self.remaining_channels-self.distilled_channels, self.remaining_channels-self.distilled_channels, 3, bias=False)  # 10 --> 10
+        self.c6 = conv_layer(self.distilled_channels, self.distilled_channels, 3, bias=False)  # 5 --> 5
         self.act = activation('relu')
-        self.c7 = conv_layer(self.distilled_channels * 6, in_channels, 1)
+        self.c7 = conv_layer(self.distilled_channels * 6, in_channels, 1, bias=False)
 
     def forward(self, input):
         out_c1 = self.act(self.c1(input))  # 24 --> 24

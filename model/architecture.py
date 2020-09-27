@@ -99,9 +99,9 @@ class IMDN_RTE(nn.Module):
     def __init__(self, upscale=2, in_nc=3, nf=20, out_nc=3):
         super(IMDN_RTE, self).__init__()
         self.upscale = upscale
-        self.fea_conv = nn.Sequential(B.conv_layer(in_nc, nf, 3, bias=True),
+        self.fea_conv = nn.Sequential(B.conv_layer(in_nc, nf, 3),
                                       nn.ReLU(inplace=True),
-                                      B.conv_layer(nf, nf, 3, stride=2))
+                                      B.conv_layer(nf, nf, 3, stride=2, bias=False))
 
         self.block1 = IMDModule_Large(nf)
         self.block2 = IMDModule_Large(nf)
@@ -110,9 +110,9 @@ class IMDN_RTE(nn.Module):
         self.block5 = IMDModule_Large(nf)
         self.block6 = IMDModule_Large(nf)
 
-        self.LR_conv = B.conv_layer(nf, nf, 1)
+        self.LR_conv = B.conv_layer(nf, nf, 1, bias=False)
 
-        self.upsampler = B.pixelshuffle_block(nf, out_nc, upscale_factor=upscale**2, bias=True)
+        self.upsampler = B.pixelshuffle_block(nf, out_nc, upscale_factor=upscale**2)
 
     def forward(self, input):
 

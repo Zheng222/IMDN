@@ -8,8 +8,12 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 # [ICCV 2019 Workshop AIM report](https://arxiv.org/abs/1911.01249)
 The simplified version of IMDN won the **first place** at Contrained Super-Resolution Challenge (Track1 & Track2). The test code is available at [Google Drive](https://drive.google.com/open?id=1BQkpqp2oZUH_J_amJv33ehGjx6gvCd0L)
 
-# [AI in RTC-rainbow](https://www.dcjingsai.com/common/bbs/topicDetails.html?tid=3787)
-The ultra lightweight version of IMDN won the **first place** at Super Resolution Algorithm Performance Comparison Challenge.
+# [AI in RTC 2019-rainbow](https://www.dcjingsai.com/common/bbs/topicDetails.html?tid=3787)
+The ultra lightweight version of IMDN won the **first place** at Super Resolution Algorithm Performance Comparison Challenge. (https://github.com/Zheng222/IMDN/blob/53f1dac25e8cd8e11ad65484eadf0d1e31d602fa/model/architecture.py#L79)
+
+# [AI in RTE 2020-rainbow](https://www.dcjingsai.com/v2/cmptDetail.html?id=409)
+The down-up version of IMDN won the **second place** at Super Resolution Algorithm Performance Comparison Challenge.
+(https://github.com/Zheng222/IMDN/blob/53f1dac25e8cd8e11ad65484eadf0d1e31d602fa/model/architecture.py#L98)
 
 # Hightlights
 1. Our information multi-distillation block (IMDB) with contrast-aware attention (CCA) layer.

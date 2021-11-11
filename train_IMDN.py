@@ -5,7 +5,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import architecture
 from data import DIV2K, Set5_val
-from utils import utils
+import utils
 import skimage.color as sc
 import random
 from collections import OrderedDict

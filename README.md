@@ -11,10 +11,17 @@ The simplified version of IMDN won the **first place** at Contrained Super-Resol
 # [AI in RTC 2019-rainbow](https://www.dcjingsai.com/common/bbs/topicDetails.html?tid=3787)
 The ultra lightweight version of IMDN won the **first place** at Super Resolution Algorithm Performance Comparison Challenge. (https://github.com/Zheng222/IMDN/blob/53f1dac25e8cd8e11ad65484eadf0d1e31d602fa/model/architecture.py#L79)
 
+Degradation type: Bicubic
+
+[Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/model_RTC.pth)
+
 # [AI in RTE 2020-rainbow](https://www.dcjingsai.com/v2/news-detail.html?id=64)
 The down-up version of IMDN won the **second place** at Super Resolution Algorithm Performance Comparison Challenge.
 (https://github.com/Zheng222/IMDN/blob/53f1dac25e8cd8e11ad65484eadf0d1e31d602fa/model/architecture.py#L98)
 
+Degradation type: Downsampling + noise
+
+[Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/model_RTE.pth)
 # Hightlights
 1. Our information multi-distillation block (IMDB) with contrast-aware attention (CCA) layer.
 

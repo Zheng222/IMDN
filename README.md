@@ -21,6 +21,7 @@ Degradation type: Bicubic
 [Tensorflow Lite Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/imdn_rtc_time.tflite)
 
 input_shape = (1, 720, 480, 3), AI Benchmark(OPPO Find X3-Qualcomm Snapdragon 870, FP16, TFLite GPU Delegate)
+
 <img src="images/imdn_rtc.jpg" width="400">
 
 

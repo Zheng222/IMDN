@@ -13,7 +13,13 @@ The ultra lightweight version of IMDN won the **first place** at Super Resolutio
 
 Degradation type: Bicubic
 
-[Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/model_RTC.pth)
+[PyTorch Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/model_RTC.pth)
+
+[Tensorflow Lite Checkpoint](https://github.com/Zheng222/IMDN/blob/master/checkpoints/imdn_rtc_time.tflite)
+
+input_shape = (1, 720, 480, 3), AI Benchmark(OPPO Find X3-Qualcomm Snapdragon 870, FP16, TFLite GPU Delegate)
+<img src="images/imdn_rtc.jpg" width="400">
+
 
 # [AI in RTE 2020-rainbow](https://www.dcjingsai.com/v2/news-detail.html?id=64)
 The down-up version of IMDN won the **second place** at Super Resolution Algorithm Performance Comparison Challenge.

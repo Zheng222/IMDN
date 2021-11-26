@@ -5,6 +5,9 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 [[Poster]](https://github.com/Zheng222/IMDN/blob/master/images/acmmm19_poster.pdf)
 [[ACM DL]](https://dl.acm.org/citation.cfm?id=3351084)
 
+## :sparkles: News
+- Nov 26, 2021. **Add IMDN_RTC tflite model.**
+
 # [ICCV 2019 Workshop AIM report](https://arxiv.org/abs/1911.01249)
 The simplified version of IMDN won the **first place** at Contrained Super-Resolution Challenge (Track1 & Track2). The test code is available at [Google Drive](https://drive.google.com/open?id=1BQkpqp2oZUH_J_amJv33ehGjx6gvCd0L)
 

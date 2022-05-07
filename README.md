@@ -9,6 +9,39 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 - Nov 26, 2021. **Add IMDN_RTC tflite model.**
 
 # [CVPR 2022 Workshop NTIRE report](https://github.com/ofsoundof/IMDN)
+The IMDN+ got the **Second Runner-up** at NTIRE 2022 Efficient SR Challenge (Sub-Track2 - Overall Performance Track).
+
+<table align='center'>
+    <tr>
+        <td align='center'>
+            <img src="images/imdb_plus.png" width="200"> <br />
+            <em> IMDB+ </em>
+        </td>
+        <td align='center'>
+            <img src="images/reparam.png" width="300"> <br />
+            <em> structural re-parameterization </em>
+        </td>
+    </tr>
+</table>
+
+
+##### Model complexity
+| <sub> number of parameters </sub> | <sub> 275,844 </sub> |
+|:---:|:---:|
+| <sub> FLOPs </sub> | <sub> 17.9848G (input size: 3*256*256) </sub> |
+| <sub> GPU memory consumption </sub> | <sub> 2893M (DIV2K test) </sub> |
+| <sub> number of activations </sub> | <sub> 92.7990M (input size: 3*256*256) </sub> |
+| <sub> runtime </sub> | <sub> 0.026783s (RTX 2080Ti, DIV2K test) </sub> |
+
+
+
+##### PSNR / SSIM (Y channel) on 5 benchmark datasets.
+| <sub>Metrics</sub> | <sub>Set5</sub> | <sub>Set14</sub> | <sub>B100</sub> | <sub>Urban100</sub> | <sub>Manga109</sub> |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| <sub>PSNR</sub>| <sub>32.11</sub> | <sub>28.63</sub> | <sub>27.58</sub> | <sub>26.10</sub> | <sub>30.55</sub> | 
+| <sub>SSIM</sub>| <sub>0.8934</sub> | <sub>0.7823</sub> | <sub>0.7358</sub> | <sub>0.7846</sub> | <sub>0.9072</sub> | 
+
+
 
 # [ICCV 2019 Workshop AIM report](https://arxiv.org/abs/1911.01249)
 The simplified version of IMDN won the **first place** at Contrained Super-Resolution Challenge (Track1 & Track2). The test code is available at [Google Drive](https://drive.google.com/open?id=1BQkpqp2oZUH_J_amJv33ehGjx6gvCd0L)

@@ -8,7 +8,7 @@ Lightweight Image Super-Resolution with Information Multi-distillation Network (
 ## :sparkles: News
 - Nov 26, 2021. **Add IMDN_RTC tflite model.**
 
-# [CVPR 2022 Workshop NTIRE report](https://github.com/ofsoundof/IMDN)
+# [CVPR 2022 Workshop NTIRE report](https://github.com/ofsoundof/NTIRE2022_ESR)
 The IMDN+ got the **Second Runner-up** at NTIRE 2022 Efficient SR Challenge (Sub-Track2 - Overall Performance Track).
 
 <table align='center'>

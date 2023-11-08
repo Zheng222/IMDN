@@ -1,5 +1,7 @@
-from skimage.measure import compare_psnr as psnr
-from skimage.measure import compare_ssim as ssim
+#from skimage.measure import compare_psnr as psnr
+from skimage.metrics import peak_signal_noise_ratio as psnr
+from skimage.metrics import structural_similarity as ssim
+#from skimage.measure import compare_ssim as ssim
 import numpy as np
 import os
 import torch

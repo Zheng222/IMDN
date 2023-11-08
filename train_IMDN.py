@@ -17,7 +17,7 @@ parser.add_argument("--batch_size", type=int, default=16,
                     help="training batch size")
 parser.add_argument("--testBatchSize", type=int, default=1,
                     help="testing batch size")
-parser.add_argument("-nEpochs", type=int, default=1000,
+parser.add_argument("-nEpochs", type=int, default=100,
                     help="number of epochs to train")
 parser.add_argument("--lr", type=float, default=2e-4,
                     help="Learning Rate. Default=2e-4")

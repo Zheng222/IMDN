@@ -41,9 +41,9 @@ class div2k(data.Dataset):
         self.images_hr, self.images_lr = self._scan()
 
     def _set_filesystem(self, dir_data):
-        self.root = dir_data + '/DIV2K_decoded'
-        self.dir_hr = os.path.join(self.root, 'DIV2K_HR')
-        self.dir_lr = os.path.join(self.root, 'DIV2K_LR_bicubic/x' + str(self.scale))
+        self.root = dir_data + '/'
+        self.dir_hr = os.path.join(self.root, 'DIV2K_HR_decoded')
+        self.dir_lr = os.path.join(self.root, 'DIV2K_LR_x2_decoded')
 
     def __getitem__(self, idx):
         lr, hr = self._load_file(idx)

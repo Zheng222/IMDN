@@ -1,5 +1,7 @@
-from skimage.measure import compare_psnr as psnr
-from skimage.measure import compare_ssim as ssim
+# from skimage.measure import compare_psnr as psnr
+from skimage.metrics import peak_signal_noise_ratio as psnr
+from skimage.metrics import structural_similarity as ssim
+# from skimage.measure import compare_ssim as ssim
 import numpy as np
 import os
 import torch
@@ -11,9 +13,13 @@ def compute_psnr(im1, im2):
 
 
 def compute_ssim(im1, im2):
+    # print(im1.shape)
+    # print(im2.shape)
     isRGB = len(im1.shape) == 3 and im1.shape[-1] == 3
     s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
-             multichannel=isRGB)
+             multichannel=isRGB, channel_axis=2)
+    # s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
+    #          multichannel=isRGB)
     return s
 
 

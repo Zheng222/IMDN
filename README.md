@@ -1,3 +1,17 @@
+# ML Project
+
+# How to set up env
+
+```console
+git clone 
+```
+
+https://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip
+
+https://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_LR_bicubic.zip
+
+
+
 # IMDN
 Lightweight Image Super-Resolution with Information Multi-distillation Network (ACM MM 2019)
 

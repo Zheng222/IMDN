@@ -17,6 +17,16 @@ def compute_ssim(im1, im2):
     # print(im2.shape)
     isRGB = len(im1.shape) == 3 and im1.shape[-1] == 3
     s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
+             multichannel=isRGB)
+    # s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
+    #          multichannel=isRGB)
+    return s
+
+def compute_ssim_as(im1, im2):
+    # print(im1.shape)
+    # print(im2.shape)
+    isRGB = len(im1.shape) == 3 and im1.shape[-1] == 3
+    s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
              multichannel=isRGB, channel_axis=2)
     # s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
     #          multichannel=isRGB)

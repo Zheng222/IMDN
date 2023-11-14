@@ -120,7 +120,7 @@ for imname in filelist:
         im_label = im_gt
         im_pre = sr_img
     psnr_list[i] = utils.compute_psnr(im_pre, im_label)
-    ssim_list[i] = utils.compute_ssim(im_pre, im_label)
+    ssim_list[i] = utils.compute_ssim_as(im_pre, im_label)
 
     output_folder = os.path.join(opt.output_folder,
                                  imname.split('/')[-1])

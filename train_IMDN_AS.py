@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import architecture
-from data import DIV2K, RealSR
+from data import DIV2K, RealSR, Set5_val
 import utils
 import skimage.color as sc
 import random
@@ -40,6 +40,8 @@ parser.add_argument("--n_train", type=int, default=800,
 parser.add_argument("--n_val", type=int, default=1,
                     help="number of validation set")
 parser.add_argument("--test_every", type=int, default=1000)
+parser.add_argument("--scale", type=int, default=2,
+                    help="super-resolution scale")
 parser.add_argument("--patch_size", type=int, default=192,
                     help="output patch size")
 parser.add_argument("--rgb_range", type=int, default=1,
@@ -67,10 +69,43 @@ torch.manual_seed(seed)
 cuda = args.cuda
 device = torch.device('cuda' if cuda else 'cpu')
 
-print("===> Loading datasets")
+def crop_forward(x, model, shave=32):
+    b, c, h, w = x.size()
+    h_half, w_half = h // 2, w // 2
 
+    h_size, w_size = h_half + shave - (h_half + shave) % 4, w_half + shave - (w_half + shave) % 4
+
+    inputlist = [
+        x[:, :, 0:h_size, 0:w_size],
+        x[:, :, 0:h_size, (w - w_size):w],
+        x[:, :, (h - h_size):h, 0:w_size],
+        x[:, :, (h - h_size):h, (w - w_size):w]]
+
+    outputlist = []
+
+    with torch.no_grad():
+        input_batch = torch.cat(inputlist, dim=0)
+        output_batch = model(input_batch)
+        # print("Output batch" + str(output_batch.shape))
+        outputlist.extend(output_batch.chunk(4, dim=0))
+
+        output = torch.zeros_like(x)
+
+        output[:, :, 0:h_half, 0:w_half] \
+            = outputlist[0][:, :, 0:h_half, 0:w_half]
+        output[:, :, 0:h_half, w_half:w] \
+            = outputlist[1][:, :, 0:h_half, (w_size - w + w_half):w_size]
+        output[:, :, h_half:h, 0:w_half] \
+            = outputlist[2][:, :, (h_size - h + h_half):h_size, 0:w_half]
+        output[:, :, h_half:h, w_half:w] \
+            = outputlist[3][:, :, (h_size - h + h_half):h_size, (w_size - w + w_half):w_size]
+
+    return output
+
+
+print("===> Loading datasets")
 trainset = DIV2K.div2k(args)
-testset = RealSR.srdata(args)
+testset = RealSR.srdata(args, train = False)
 training_data_loader = DataLoader(dataset=trainset, num_workers=args.threads, batch_size=args.batch_size, shuffle=True, pin_memory=True, drop_last=True)
 testing_data_loader = DataLoader(dataset=testset, num_workers=args.threads, batch_size=args.testBatchSize,
                                  shuffle=False)
@@ -78,7 +113,7 @@ testing_data_loader = DataLoader(dataset=testset, num_workers=args.threads, batc
 print("===> Building models")
 args.is_train = True
 
-model = architecture.IMDN_AS()
+model = architecture.IMDN_AS(upscale=args.scale**2)
 l1_criterion = nn.L1Loss()
 
 print("===> Setting GPU")
@@ -123,9 +158,9 @@ def train(epoch):
         if args.cuda:
             lr_tensor = lr_tensor.to(device)  # ranges from [0, 1]
             hr_tensor = hr_tensor.to(device)  # ranges from [0, 1]
-
         optimizer.zero_grad()
         sr_tensor = model(lr_tensor)
+        hr_tensor = nn.functional.interpolate(hr_tensor, scale_factor=(1./args.scale))
         loss_l1 = l1_criterion(sr_tensor, hr_tensor)
         loss_sr = loss_l1
 
@@ -146,19 +181,24 @@ def valid():
             lr_tensor = lr_tensor.to(device)
             hr_tensor = hr_tensor.to(device)
 
+        _, _, h, w = lr_tensor.size()
         with torch.no_grad():
-            pre = model(lr_tensor)
-
+            if h % 4 == 0 and w % 4 == 0:
+                pre = model(lr_tensor)
+            else:
+                pre = crop_forward(lr_tensor, model)
+        # print(pre.shape)
+        # print(lr_tensor.shape)
         sr_img = utils.tensor2np(pre.detach()[0])
         gt_img = utils.tensor2np(hr_tensor.detach()[0])
-        if args.is_y is True:
+        if args.isY is True:
             im_label = utils.quantize(sc.rgb2ycbcr(gt_img)[:, :, 0])
             im_pre = utils.quantize(sc.rgb2ycbcr(sr_img)[:, :, 0])
         else:
             im_label = gt_img
             im_pre = sr_img
         avg_psnr += utils.compute_psnr(im_pre, im_label)
-        avg_ssim += utils.compute_ssim_as(im_pre, im_label)
+        avg_ssim += utils.compute_ssim(im_pre, im_label)
     print("===> Valid. psnr: {:.4f}, ssim: {:.4f}".format(avg_psnr / len(testing_data_loader), avg_ssim / len(testing_data_loader)))
 
 

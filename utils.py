@@ -46,6 +46,44 @@ def modcrop(im, modulo):
     ims = im[0:h, 0:w, ...]
     return ims
 
+def crop_forward(x, model, shave=32):
+    ACS_GRID_SIZE = 4
+    b, c, h, w = x.size()
+
+    h_half, w_half = h // 2, w // 2
+
+    h_size, w_size = h_half + shave - (h_half + shave) % ACS_GRID_SIZE, w_half + shave - (w_half + shave) % ACS_GRID_SIZE
+
+    inputlist = [
+        x[:, :, 0:h_size, 0:w_size],
+        x[:, :, 0:h_size, (w - w_size):w],
+        x[:, :, (h - h_size):h, 0:w_size],
+        x[:, :, (h - h_size):h, (w - w_size):w]]
+
+    outputlist = []
+
+    with torch.no_grad():
+        if h % ACS_GRID_SIZE == 0 and w % ACS_GRID_SIZE == 0:
+                return model(x)
+
+        input_batch = torch.cat(inputlist, dim=0)
+        output_batch = model(input_batch)
+        # print("Output batch" + str(output_batch.shape))
+        outputlist.extend(output_batch.chunk(ACS_GRID_SIZE, dim=0))
+
+        output = torch.zeros_like(x)
+
+        output[:, :, 0:h_half, 0:w_half] \
+            = outputlist[0][:, :, 0:h_half, 0:w_half]
+        output[:, :, 0:h_half, w_half:w] \
+            = outputlist[1][:, :, 0:h_half, (w_size - w + w_half):w_size]
+        output[:, :, h_half:h, 0:w_half] \
+            = outputlist[2][:, :, (h_size - h + h_half):h_size, 0:w_half]
+        output[:, :, h_half:h, w_half:w] \
+            = outputlist[3][:, :, (h_size - h + h_half):h_size, (w_size - w + w_half):w_size]
+
+    return output
+
 
 def get_list(path, ext):
     return [os.path.join(path, f) for f in os.listdir(path) if f.endswith(ext)]

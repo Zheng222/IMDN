@@ -69,40 +69,6 @@ torch.manual_seed(seed)
 cuda = args.cuda
 device = torch.device('cuda' if cuda else 'cpu')
 
-def crop_forward(x, model, shave=32):
-    b, c, h, w = x.size()
-    h_half, w_half = h // 2, w // 2
-
-    h_size, w_size = h_half + shave - (h_half + shave) % 4, w_half + shave - (w_half + shave) % 4
-
-    inputlist = [
-        x[:, :, 0:h_size, 0:w_size],
-        x[:, :, 0:h_size, (w - w_size):w],
-        x[:, :, (h - h_size):h, 0:w_size],
-        x[:, :, (h - h_size):h, (w - w_size):w]]
-
-    outputlist = []
-
-    with torch.no_grad():
-        input_batch = torch.cat(inputlist, dim=0)
-        output_batch = model(input_batch)
-        # print("Output batch" + str(output_batch.shape))
-        outputlist.extend(output_batch.chunk(4, dim=0))
-
-        output = torch.zeros_like(x)
-
-        output[:, :, 0:h_half, 0:w_half] \
-            = outputlist[0][:, :, 0:h_half, 0:w_half]
-        output[:, :, 0:h_half, w_half:w] \
-            = outputlist[1][:, :, 0:h_half, (w_size - w + w_half):w_size]
-        output[:, :, h_half:h, 0:w_half] \
-            = outputlist[2][:, :, (h_size - h + h_half):h_size, 0:w_half]
-        output[:, :, h_half:h, w_half:w] \
-            = outputlist[3][:, :, (h_size - h + h_half):h_size, (w_size - w + w_half):w_size]
-
-    return output
-
-
 print("===> Loading datasets")
 trainset = DIV2K.div2k(args)
 testset = RealSR.srdata(args, train = False)
@@ -160,7 +126,7 @@ def train(epoch):
             hr_tensor = hr_tensor.to(device)  # ranges from [0, 1]
         optimizer.zero_grad()
         sr_tensor = model(lr_tensor)
-        hr_tensor = nn.functional.interpolate(hr_tensor, scale_factor=(1./args.scale))
+        sr_tensor = nn.functional.interpolate(sr_tensor, scale_factor=args.scale)
         loss_l1 = l1_criterion(sr_tensor, hr_tensor)
         loss_sr = loss_l1
 
@@ -183,10 +149,7 @@ def valid():
 
         _, _, h, w = lr_tensor.size()
         with torch.no_grad():
-            if h % 4 == 0 and w % 4 == 0:
-                pre = model(lr_tensor)
-            else:
-                pre = crop_forward(lr_tensor, model)
+            pre = utils.crop_forward(lr_tensor, model)
         # print(pre.shape)
         # print(lr_tensor.shape)
         sr_img = utils.tensor2np(pre.detach()[0])

@@ -26,40 +26,6 @@ print(opt)
 cuda = opt.cuda
 device = torch.device('cuda' if cuda else 'cpu')
 
-
-def crop_forward(x, model, shave=32):
-    b, c, h, w = x.size()
-    h_half, w_half = h // 2, w // 2
-
-    h_size, w_size = h_half + shave - (h_half + shave) % 4, w_half + shave - (w_half + shave) % 4
-
-    inputlist = [
-        x[:, :, 0:h_size, 0:w_size],
-        x[:, :, 0:h_size, (w - w_size):w],
-        x[:, :, (h - h_size):h, 0:w_size],
-        x[:, :, (h - h_size):h, (w - w_size):w]]
-
-    outputlist = []
-
-    with torch.no_grad():
-        input_batch = torch.cat(inputlist, dim=0)
-        output_batch = model(input_batch)
-        outputlist.extend(output_batch.chunk(4, dim=0))
-
-        output = torch.zeros_like(x)
-
-        output[:, :, 0:h_half, 0:w_half] \
-            = outputlist[0][:, :, 0:h_half, 0:w_half]
-        output[:, :, 0:h_half, w_half:w] \
-            = outputlist[1][:, :, 0:h_half, (w_size - w + w_half):w_size]
-        output[:, :, h_half:h, 0:w_half] \
-            = outputlist[2][:, :, (h_size - h + h_half):h_size, 0:w_half]
-        output[:, :, h_half:h, w_half:w] \
-            = outputlist[3][:, :, (h_size - h + h_half):h_size, (w_size - w + w_half):w_size]
-
-    return output
-
-
 filepath = opt.test_hr_folder
 if filepath.split('/')[-2] == 'Set5' or filepath.split('/')[-2] == 'Set14':
     ext = '.bmp'
@@ -98,19 +64,11 @@ for imname in filelist:
 
     _, _, h, w = im_input.size()
     with torch.no_grad():
-
-        if h % 4 == 0 and w % 4 == 0:
-            start.record()
-            out = model(im_input)
-            end.record()
-            torch.cuda.synchronize()
-            time_list[i] = start.elapsed_time(end)  # milliseconds
-        else:
-            start.record()
-            out = crop_forward(im_input, model)
-            end.record()
-            torch.cuda.synchronize()
-            time_list[i] = start.elapsed_time(end)  # milliseconds
+        start.record()
+        out = utils.crop_forward(im_input, model)
+        end.record()
+        torch.cuda.synchronize()
+        time_list[i] = start.elapsed_time(end)  # milliseconds
 
     sr_img = utils.tensor2np(out.detach()[0])
     if opt.is_y is True:

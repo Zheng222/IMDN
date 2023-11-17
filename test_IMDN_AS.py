@@ -15,6 +15,8 @@ parser.add_argument("--test_lr_folder", type=str, default='Test_Datasets/RealSR/
 parser.add_argument("--output_folder", type=str, default='results/RealSR')
 parser.add_argument("--checkpoint", type=str, default='checkpoints/IMDN_AS.pth',
                     help='checkpoint folder to use')
+parser.add_argument("--acs", type=int, default=2,
+                    help="height/width of Adaptive Cropping Strategy grid")
 parser.add_argument('--cuda', action='store_true', default=True,
                     help='use cuda')
 parser.add_argument("--is_y", action='store_true', default=False,
@@ -65,7 +67,7 @@ for imname in filelist:
     _, _, h, w = im_input.size()
     with torch.no_grad():
         start.record()
-        out = utils.crop_forward(im_input, model)
+        out = utils.crop_forward(im_input, model, acs_xy=opt.acs)
         end.record()
         torch.cuda.synchronize()
         time_list[i] = start.elapsed_time(end)  # milliseconds

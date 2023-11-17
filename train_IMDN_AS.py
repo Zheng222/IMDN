@@ -42,6 +42,8 @@ parser.add_argument("--n_val", type=int, default=1,
 parser.add_argument("--test_every", type=int, default=1000)
 parser.add_argument("--scale", type=int, default=2,
                     help="super-resolution scale")
+parser.add_argument("--acs", type=int, default=2,
+                    help="height/width of Adaptive Cropping Strategy grid")
 parser.add_argument("--patch_size", type=int, default=192,
                     help="output patch size")
 parser.add_argument("--rgb_range", type=int, default=1,
@@ -149,7 +151,7 @@ def valid():
 
         _, _, h, w = lr_tensor.size()
         with torch.no_grad():
-            pre = utils.crop_forward(lr_tensor, model)
+            pre = utils.crop_forward(lr_tensor, model, acs_xy=args.acs)
         # print(pre.shape)
         # print(lr_tensor.shape)
         sr_img = utils.tensor2np(pre.detach()[0])

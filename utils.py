@@ -18,8 +18,6 @@ def compute_ssim(im1, im2):
     isRGB = len(im1.shape) == 3 and im1.shape[-1] == 3
     s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
              multichannel=isRGB)
-    # s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
-    #          multichannel=isRGB)
     return s
 
 def compute_ssim_as(im1, im2):
@@ -28,8 +26,6 @@ def compute_ssim_as(im1, im2):
     isRGB = len(im1.shape) == 3 and im1.shape[-1] == 3
     s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
              multichannel=isRGB, channel_axis=2)
-    # s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
-    #          multichannel=isRGB)
     return s
 
 
@@ -56,7 +52,7 @@ def crop_forward(x, model, shave=32, acs_xy = 2):
         if h % ACS_GRID_SIZE == 0 and w % ACS_GRID_SIZE == 0:
                 return model(x)
 
-    # The raw dimensions of a single patch in the ACS grid
+    # The unpadded dimensions of a single patch in the ACS grid
     h_chunk, w_chunk = h // acs_xy, w // acs_xy
 
     # Patch size plus any buffer needed
@@ -72,24 +68,24 @@ def crop_forward(x, model, shave=32, acs_xy = 2):
     inputlist = [0]*ACS_GRID_SIZE
     
     for h_patch in range(acs_xy):
-            for w_patch in range(acs_xy):
-                patch = acs_xy*h_patch+w_patch
-                h_lb, w_lb = h_patch*h_size, w_patch*w_size
-                h_ub, w_ub = (h_patch+1)*h_size, (w_patch+1)*w_size
-                # Correct for any imprecision in patch size
-                if(h_ub > h): 
-                    h_offset = h_ub - h
-                    h_ub -= h_offset
-                    h_lb -= h_offset
-                if(w_ub > w):
-                    w_offset = w_ub - w
-                    w_ub -= w_offset
-                    w_lb -= w_offset
-                
-                """print("h["+str(patch)+"]: ("+str(h_lb)+", "+str(h_ub)+")")
-                print("w["+str(patch)+"]: ("+str(w_lb)+", "+str(w_ub)+")")"""
-                inputlist[patch] = x[:, :, h_lb:h_ub, w_lb:w_ub]
-                # print("patch["+str(patch)+"]: "+str(inputlist[patch].shape))
+        for w_patch in range(acs_xy):
+            patch = acs_xy*h_patch+w_patch
+            h_lb, w_lb = h_patch*h_size, w_patch*w_size # Patch's lower bounds
+            h_ub, w_ub = (h_patch+1)*h_size, (w_patch+1)*w_size # Patch's upper bounds
+            # Correct for any imprecision in patch size
+            if(h_ub > h): 
+                h_offset = h_ub - h
+                h_ub -= h_offset
+                h_lb -= h_offset
+            if(w_ub > w):
+                w_offset = w_ub - w
+                w_ub -= w_offset
+                w_lb -= w_offset
+            
+            """print("h["+str(patch)+"]: ("+str(h_lb)+", "+str(h_ub)+")")
+            print("w["+str(patch)+"]: ("+str(w_lb)+", "+str(w_ub)+")")"""
+            inputlist[patch] = x[:, :, h_lb:h_ub, w_lb:w_ub]
+            # print("patch["+str(patch)+"]: "+str(inputlist[patch].shape))
 
     outputlist = []
 
@@ -101,58 +97,64 @@ def crop_forward(x, model, shave=32, acs_xy = 2):
 
         output = torch.zeros_like(x)
         
-        # Once SR is calculated, put each patch back where it's supposed to be and remove any excess padding
-        for h_patch in range(acs_xy):
-            for w_patch in range(acs_xy):
-                patch = acs_xy*h_patch+w_patch
-                h_lb_chunk, w_lb_chunk = h_patch*h_chunk, w_patch*w_chunk
-                h_ub_chunk, w_ub_chunk = (h_patch+1)*h_chunk, (w_patch+1)*w_chunk
-                # Correct for any imprecision in patch size
-                if(h_ub_chunk > h): 
-                    h_offset = h_ub_chunk - h
-                    h_ub_chunk -= h_offset
-                    h_lb_chunk -= h_offset
-                if(w_ub_chunk > w):
-                    w_offset = w_ub_chunk - w
-                    w_ub_chunk -= w_offset
-                    w_lb_chunk -= w_offset
-                """print("h_chunk["+str(patch)+"]: ("+str(h_lb_chunk)+", "+str(h_ub_chunk)+")")
-                print("w_chunk["+str(patch)+"]: ("+str(w_lb_chunk)+", "+str(w_ub_chunk)+")")"""
-                h_lb, w_lb = h_patch*h_size, w_patch*w_size
-                h_ub, w_ub = (h_patch+1)*h_size, (w_patch+1)*w_size
-                # Correct for any imprecision in patch size
-                if(h_ub > h): 
-                    h_offset = h_ub - h
-                    h_ub -= h_offset
-                    h_lb -= h_offset
-                if(w_ub > w):
-                    w_offset = w_ub - w
-                    w_ub -= w_offset
-                    w_lb -= w_offset
-
-                """print("h["+str(patch)+"]: ("+str(h_lb)+", "+str(h_ub)+")")
-                print("w["+str(patch)+"]: ("+str(w_lb)+", "+str(w_ub)+")")"""
-
-                h_out_lb = np.int32(np.rint((h_patch*h_size-h_lb_chunk)/(acs_xy-1)))
-                w_out_lb = np.int32(np.rint((w_patch*w_size-w_lb_chunk)/(acs_xy-1)))
-                h_out_ub = h_ub_chunk - h_lb + (h_patch+acs_xy-1) * h_out_lb
-                w_out_ub = w_ub_chunk - w_lb + (w_patch+acs_xy-1) * w_out_lb
-
-                # Correct for any imprecision in patch size
-                if(h_out_ub-h_out_lb != h_ub-h_lb): 
-                    h_offset = (h_out_ub - h_out_lb) - (h_ub - h_lb)
-                    h_out_ub = h_size
-                    h_out_lb = h_size - (h_ub - h_lb)
-                if(w_out_ub-w_out_lb != w_ub-w_lb):
-                    w_offset = (w_out_ub - w_out_lb) - (w_ub - w_lb)
-                    w_out_ub = w_size
-                    w_out_lb = w_size - (w_ub - w_lb)
-
-                """print("h_out["+str(patch)+"]: ("+str(h_out_lb)+", "+str(h_out_ub)+")")
-                print("w_out["+str(patch)+"]: ("+str(w_out_lb)+", "+str(w_out_ub)+")")"""
+    # Once SR is calculated, put each patch back where it's supposed to be and remove any excess padding
+    for h_patch in range(acs_xy):
+        for w_patch in range(acs_xy):
+            patch = acs_xy*h_patch+w_patch
+            h_lb_chunk, w_lb_chunk = h_patch*h_chunk, w_patch*w_chunk # Lower bounds of the "chunk", AKA the unpadded patch size
+            h_ub_chunk, w_ub_chunk = (h_patch+1)*h_chunk, (w_patch+1)*w_chunk # Upper bounds of the "chunk", AKA the unpadded patch size
+            
+            # Correct for any imprecision in patch size
+            if(h_ub_chunk > h): 
+                h_offset = h_ub_chunk - h
+                h_ub_chunk -= h_offset
+                h_lb_chunk -= h_offset
+            if(w_ub_chunk > w):
+                w_offset = w_ub_chunk - w
+                w_ub_chunk -= w_offset
+                w_lb_chunk -= w_offset
                 
+            """print("h_chunk["+str(patch)+"]: ("+str(h_lb_chunk)+", "+str(h_ub_chunk)+")")
+            print("w_chunk["+str(patch)+"]: ("+str(w_lb_chunk)+", "+str(w_ub_chunk)+")")"""
+            
+            h_lb, w_lb = h_patch*h_size, w_patch*w_size # Lower bounds of the original patch's dimensions
+            h_ub, w_ub = (h_patch+1)*h_size, (w_patch+1)*w_size # Upper bounds of the original patch's dimensions
+            
+            # Correct for any imprecision in patch size
+            if(h_ub > h): 
+                h_offset = h_ub - h
+                h_ub -= h_offset
+                h_lb -= h_offset
+            if(w_ub > w):
+                w_offset = w_ub - w
+                w_ub -= w_offset
+                w_lb -= w_offset
 
-                output[:, :, h_lb:h_ub, w_lb:w_ub] = outputlist[patch][:, :, h_out_lb:h_out_ub, w_out_lb:w_out_ub]
+            """print("h["+str(patch)+"]: ("+str(h_lb)+", "+str(h_ub)+")")
+            print("w["+str(patch)+"]: ("+str(w_lb)+", "+str(w_ub)+")")"""
+
+            # Lower bounds of the patch that should be taken from the output
+            h_out_lb = np.int32(np.rint((h_patch*h_size-h_lb_chunk)/(acs_xy-1)))
+            w_out_lb = np.int32(np.rint((w_patch*w_size-w_lb_chunk)/(acs_xy-1)))
+            # Upper bounds of the patch that should be taken from the output
+            h_out_ub = h_ub_chunk - h_lb + (h_patch+acs_xy-1) * h_out_lb
+            w_out_ub = w_ub_chunk - w_lb + (w_patch+acs_xy-1) * w_out_lb
+
+            # Correct for any imprecision in patch size
+            if(h_out_ub-h_out_lb != h_ub-h_lb): 
+                h_offset = (h_out_ub - h_out_lb) - (h_ub - h_lb)
+                h_out_ub = h_size
+                h_out_lb = h_size - (h_ub - h_lb)
+            if(w_out_ub-w_out_lb != w_ub-w_lb):
+                w_offset = (w_out_ub - w_out_lb) - (w_ub - w_lb)
+                w_out_ub = w_size
+                w_out_lb = w_size - (w_ub - w_lb)
+
+            """print("h_out["+str(patch)+"]: ("+str(h_out_lb)+", "+str(h_out_ub)+")")
+            print("w_out["+str(patch)+"]: ("+str(w_out_lb)+", "+str(w_out_ub)+")")"""
+            
+            # Place the HR patch back where it was originally in the LR image
+            output[:, :, h_lb:h_ub, w_lb:w_ub] = outputlist[patch][:, :, h_out_lb:h_out_ub, w_out_lb:w_out_ub]
 
     return output
 

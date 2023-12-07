@@ -47,10 +47,11 @@ def crop_forward(x, model, shave=32, acs_xy = 2):
     
     b, c, h, w = x.size()
 
-    with torch.no_grad():
+    # Uncomment this to allow base IMDN to be used
+    """with torch.no_grad():
         # Don't bother with ACS unless its actually needed
         if h % ACS_GRID_SIZE == 0 and w % ACS_GRID_SIZE == 0:
-                return model(x)
+                return model(x)"""
 
     # The unpadded dimensions of a single patch in the ACS grid
     h_chunk, w_chunk = h // acs_xy, w // acs_xy

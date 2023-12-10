@@ -29,7 +29,7 @@ cuda = opt.cuda
 device = torch.device('cuda' if cuda else 'cpu')
 
 filepath = opt.test_hr_folder
-if filepath.split('/')[-2] == 'Set5' or filepath.split('/')[-2] == 'Set14':
+if filepath.split('/')[-2] == 'Set5':
     ext = '.bmp'
 else:
     ext = '.png'
@@ -49,7 +49,8 @@ end = torch.cuda.Event(enable_timing=True)
 i = 0
 for imname in filelist:
     im_gt = cv2.imread(imname)[:, :, [2, 1, 0]]
-    im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1])[:, :, [2, 1, 0]]
+    if ext == '.png': im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1])[:, :, [2, 1, 0]]
+    else: im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1].split('.')[0] + 'x2' + ext, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
     if len(im_gt.shape) < 3:
         im_gt = im_gt[..., np.newaxis]
         im_gt = np.concatenate([im_gt] * 3, 2)
@@ -59,7 +60,8 @@ for imname in filelist:
     im_input = np.transpose(im_input, (2, 0, 1))
     im_input = im_input[np.newaxis, ...]
     im_input = torch.from_numpy(im_input).float()
-
+    # Some datasets use smaller LR images, so ensure they have the same dimensions as the GT images
+    if im_l.shape != im_gt.shape: im_input = torch.nn.functional.interpolate(im_input, scale_factor=2)
     if cuda:
         model = model.to(device)
         im_input = im_input.to(device)

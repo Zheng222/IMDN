@@ -49,7 +49,10 @@ end = torch.cuda.Event(enable_timing=True)
 i = 0
 for imname in filelist:
     im_gt = cv2.imread(imname)[:, :, [2, 1, 0]]
-    if ext == '.png': im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1])[:, :, [2, 1, 0]]
+    # print(imname)
+    # print(imname.split('/')[-1])
+    # print(opt.test_lr_folder + imname.split('/')[-1])
+    if ext == '.png': im_l = cv2.imread(opt.test_lr_folder + '/' + imname.split('/')[-1])[:, :, [2, 1, 0]]
     else: im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1].split('.')[0] + 'x2' + ext, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
     if len(im_gt.shape) < 3:
         im_gt = im_gt[..., np.newaxis]

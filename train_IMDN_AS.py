@@ -127,8 +127,7 @@ def train(epoch):
             lr_tensor = lr_tensor.to(device)  # ranges from [0, 1]
             hr_tensor = hr_tensor.to(device)  # ranges from [0, 1]
         optimizer.zero_grad()
-        sr_tensor = model(lr_tensor)
-        sr_tensor = nn.functional.interpolate(sr_tensor, scale_factor=args.scale)
+        sr_tensor = model(nn.functional.interpolate(lr_tensor, scale_factor=args.scale))
         loss_l1 = l1_criterion(sr_tensor, hr_tensor)
         loss_sr = loss_l1
 

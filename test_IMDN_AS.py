@@ -41,7 +41,8 @@ ssim_list = np.zeros(len(filelist))
 time_list = np.zeros(len(filelist))
 
 model = architecture.IMDN_AS()
-model_dict = utils.load_state_dict(opt.checkpoint)
+model_dict = torch.load(opt.checkpoint)
+#model_dict = utils.load_state_dict(opt.checkpoint)
 # print(model_dict)
 model.load_state_dict(model_dict, strict=True)
 

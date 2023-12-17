@@ -67,26 +67,6 @@ Save the dataset so it has the following structure and names as the tree below.
 ## Setting up the IMDN env
 Using the env.yml file to create the conda enviornment in order to run the IMDN code
 
-If the env.yml for some reason does not work (should not be the case), you can create a new one and put the following code in.
-
-```bash
-vim env.yml
-```
-
-Put the following code below in the env.yml
-
-```
-name: imdn
-channels:
-  - defaults
-dependencies:
-  - opencv
-  - scipy
-  - scikit-image
-  - torchvision
-```
-
-
 ```bash
 conda env create --file env.yml
 ```
@@ -138,7 +118,9 @@ They can be found in the Test_Datasets folder and contain LR (Low Resolution) an
 
 ## Testing the model
 
-Run the commands from the Makefile to test the models you trained. You will need to change the --checkpoint name in order to work.
+Run the commands from the Makefile to test the models we trained which can be found in the checkpoints directory. If you want to test your own models you will need to update the checkpoint argument in the Makefile with the name of your pth file.
+
+If you are having trouble getting the testing to work, you can train your own model and then test it yourself by changing the README.md which works. If the ones from checkpoints don't work, try grabbing them from the roughwork. If that doens't work train your own and test that.
 
 ```bash
 make testacs2

@@ -169,7 +169,8 @@ def valid():
 
 def save_checkpoint(epoch):
     model_folder = "checkpoint_AS/"
-    model_out_path = model_folder + args.output_file+"_epoch_{}_".format(epoch)+".pth"
+    model_out_path = model_folder + "epoch_{}".format(epoch)+".pth"
+    # model_out_path = model_folder + args.output_file+"_epoch_{}_".format(epoch)+".pth"
     if not os.path.exists(model_folder):
         os.makedirs(model_folder)
     torch.save(model.state_dict(), model_out_path)

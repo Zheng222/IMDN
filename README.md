@@ -1,6 +1,6 @@
 ### Note: The Test Datasets have been included in this assignment to make testing quicker which is why it is so large.
 
-## Downloading and configuring the training data set
+# Downloading and configuring the training data set
 
 We got the DIV2K dataset from https://data.vision.ee.ethz.ch/cvl/DIV2K/. More specifically, we used the data from the DIV2K_train_HR, DIV2K_train_LR_bicubic/X2, for our training data set.
 

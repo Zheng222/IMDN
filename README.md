@@ -1,9 +1,3 @@
-# Rough Work
-
-How to understand this Rough Work 
-1. Read the README.md
-2. Look athe Screenshot Collection file and open the .txt's while you read the word doc. Also take a look at the baby photos.
-
 ## Downloading and configuring the training data set
 
 We got the DIV2K dataset from https://data.vision.ee.ethz.ch/cvl/DIV2K/. More specifically, we used the data from the DIV2K_train_HR, DIV2K_train_LR_bicubic/X2, for our training data set.

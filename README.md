@@ -1,4 +1,4 @@
-# Note: The Test Datasets have been included in this assignment to make testing quicker which is why it is so large.
+### Note: The Test Datasets have been included in this assignment to make testing quicker which is why it is so large.
 
 ## Downloading and configuring the training data set
 

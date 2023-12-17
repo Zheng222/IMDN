@@ -2,7 +2,7 @@
 
 # Downloading and configuring the training data set
 
-We got the DIV2K dataset from https://data.vision.ee.ethz.ch/cvl/DIV2K/. More specifically, we used the data from the DIV2K_train_HR, DIV2K_train_LR_bicubic/X2, for our training data set.
+We got the DIV2K dataset from https://data.vision.ee.ethz.ch/cvl/DIV2K/. More specifically, we used the data from the DIV2K_train_HR and DIV2K_train_LR_bicubic/X2 folders from the site below for our training data set.
 
 To download the datasets mentioned above add the name of one of the four subfolders to the end of the link below.
 https://data.vision.ee.ethz.ch/cvl/ + [subfolder]

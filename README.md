@@ -75,6 +75,10 @@ Using the env.yml file to create the conda enviornment in order to run the IMDN 
 conda env create --file env.yml
 ```
 
+Activate the conda environment
+```bash
+conda activate imdn```
+
 ## Training the model
 
 Run the following command from the Makefile below to train the ACS 2, ACS 3 and ACS 4 models.
@@ -87,6 +91,32 @@ make trainacs3
 ```
 ```bash
 make trainacs4
+```
+
+## The Test Datasets have been included in this to reduce the amount of time it takes to get the model to work.
+
+They can be found in the Test_Datasets folder and contain LR (Low Resolution) and HR (High Resolution) images. The tree structure of the models is below.
+
+```
+.
+├── BSD100
+│   ├── HR
+│   └── LR
+├── RealSR
+│   ├── ValidationGT
+│   └── ValidationLR
+├── RealSR_decoded
+│   ├── TrainGT
+│   └── TrainLR
+├── Set14
+│   ├── HR
+│   └── LR
+├── Set5
+│   ├── HR
+│   └── LR
+└── Urban100
+    ├── HR
+    └── LR
 ```
 
 ## Testing the model

@@ -77,7 +77,8 @@ conda env create --file env.yml
 
 Activate the conda environment
 ```bash
-conda activate imdn```
+conda activate imdn
+```
 
 ## Training the model
 

@@ -56,6 +56,7 @@ parser.add_argument("--seed", type=int, default=1)
 parser.add_argument("--isY", action="store_true", default=True)
 parser.add_argument("--ext", type=str, default='.npy')
 parser.add_argument("--phase", type=str, default='train')
+parser.add_argument("--output_file", type=str, default='epoch')
 
 args = parser.parse_args()
 print(args)
@@ -168,7 +169,7 @@ def valid():
 
 def save_checkpoint(epoch):
     model_folder = "checkpoint_AS/"
-    model_out_path = model_folder + "epoch_{}.pth".format(epoch)
+    model_out_path = model_folder + args.output_file+"_epoch_{}_".format(epoch)+".pth"
     if not os.path.exists(model_folder):
         os.makedirs(model_folder)
     torch.save(model.state_dict(), model_out_path)

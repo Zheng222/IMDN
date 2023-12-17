@@ -1,3 +1,4 @@
+#import time
 import argparse
 import torch
 import os
@@ -48,6 +49,7 @@ start = torch.cuda.Event(enable_timing=True)
 end = torch.cuda.Event(enable_timing=True)
 i = 0
 for imname in filelist:
+    # s = time.time()
     im_gt = cv2.imread(imname)[:, :, [2, 1, 0]]
     if ext == '.png': im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1])[:, :, [2, 1, 0]]
     else: im_l = cv2.imread(opt.test_lr_folder + imname.split('/')[-1].split('.')[0] + 'x2' + ext, cv2.IMREAD_COLOR)[:, :, [2, 1, 0]]  # BGR to RGB
@@ -62,6 +64,8 @@ for imname in filelist:
     im_input = torch.from_numpy(im_input).float()
     # Some datasets use smaller LR images, so ensure they have the same dimensions as the GT images
     if im_l.shape != im_gt.shape: im_input = torch.nn.functional.interpolate(im_input, size=(im_gt.shape[0], im_gt.shape[1]))
+    # e = time.time()
+    # print(e-s)
     if cuda:
         model = model.to(device)
         im_input = im_input.to(device)
@@ -69,7 +73,10 @@ for imname in filelist:
     _, _, h, w = im_input.size()
     with torch.no_grad():
         start.record()
+        #s1 = time.time()
         out = utils.crop_forward(im_input, model, acs_xy=opt.acs)
+        #e1 = time.time()
+        #print(e1-s1)
         end.record()
         torch.cuda.synchronize()
         time_list[i] = start.elapsed_time(end)  # milliseconds

@@ -67,6 +67,26 @@ Save the dataset so it has the following structure and names as the tree below.
 ## Setting up the IMDN env
 Using the env.yml file to create the conda enviornment in order to run the IMDN code
 
+Sometimes the ICL6 machines block downloading certain files from GitHub such as .yml's. So if it does for you, you might have to create the env.yml yourself.
+
+```bash
+vim env.yml
+```
+
+Put the following code below in the env.yml
+
+```
+name: imdn
+channels:
+  - defaults
+dependencies:
+  - opencv
+  - scipy
+  - scikit-image
+  - torchvision
+```
+
+
 ```bash
 conda env create --file env.yml
 ```

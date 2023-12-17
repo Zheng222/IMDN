@@ -67,7 +67,7 @@ Save the dataset so it has the following structure and names as the tree below.
 ## Setting up the IMDN env
 Using the env.yml file to create the conda enviornment in order to run the IMDN code
 
-Sometimes the ICL6 machines block downloading certain files from GitHub such as .yml's. So if it does for you, you might have to create the env.yml yourself.
+If the env.yml for some reason does not work (should not be the case), you can create a new one and put the following code in.
 
 ```bash
 vim env.yml
